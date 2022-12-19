@@ -8,6 +8,7 @@
 }
 
 .page-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -134,3 +135,22 @@
 }
 
 
+.todo-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: lightgray;
+  width: 400px;
+  height: 200px;
+  visibility: hidden;
+}
+
+.list-form {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  background-color: lightgray;
+  width: 400px;
+  height: 200px;
+  visibility: hidden;
+}
