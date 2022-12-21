@@ -213,12 +213,16 @@ class Task {
   }
 };
 
-function taskFormDisplayController() {
+function createTask() {
 
   const addTaskBtn = document.querySelector('.add-task-btn');
   const taskForm = document.querySelector('.task-form');
   const taskFormSubmitBtn = document.querySelector('.task-submit-btn');
   
+  const taskTitle = document.querySelector("#title");
+  const taskDescription = document.querySelector("#description");
+  const taskDueDate = document.querySelector("#dueDate");
+
   let isAddBtnClicked = false;
 
   addTaskBtn.addEventListener('click', () => {
@@ -230,11 +234,6 @@ function taskFormDisplayController() {
       isAddBtnClicked = true;
     }
   })
-
-  const taskTitle = document.querySelector("#title");
-  const taskDescription = document.querySelector("#description");
-  const taskDueDate = document.querySelector("#dueDate");
-
 
   taskFormSubmitBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -257,34 +256,35 @@ function displayTask(task) {
   const taskCard = document.createElement("div");
   taskCard.classList.add("task-card");
 
-  const taskCardDelBtn = document.createElement("button");
-  taskCardDelBtn.classList.add("card-delete-btn");
-  taskCardDelBtn.textContent = "X";
-
   const taskCardInfo = document.createElement("div");
   taskCardInfo.classList.add("card-info");
   taskCardInfo.innerHTML = `Title: ${task.title}<br/> Description: ${task.description}<br/> Due Date: ${task.dueDate}`;
 
-  taskCard.append(taskCardDelBtn, taskCardInfo);
+  const taskCardDelBtn = document.createElement("button");
+  taskCardDelBtn.classList.add("card-delete-btn");
+  taskCardDelBtn.textContent = "X";
+
+  taskCard.append(taskCardInfo, taskCardDelBtn);
   taskCardContainer.append(taskCard);
   mainContent.append(taskCardContainer);
 
   taskCardDelBtn.addEventListener('click', () => {
-    taskCardContainer.remove();
-  })
+    removeTask(taskCardContainer);
+  });
 
   return taskCardContainer;
 
 };
 
+function removeTask(taskCardContainer) {
+  taskCardContainer.remove();
+}
+
 function loadWebsite() {
 
   const container = document.querySelector('.container');
-  
   container.append(createTopper(), createFooter(), createTaskForm());
-
-  taskFormDisplayController();
-
+  createTask();
   return container;
   
 };
