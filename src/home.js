@@ -203,9 +203,22 @@ function createTaskForm() {
 
 }
 
-function taskFormDisplay() {
+let allTasks = [];
+
+class Task {
+  constructor(title, description, dueDate) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+  }
+};
+
+function taskFormDisplayController() {
+
   const addTaskBtn = document.querySelector('.add-task-btn');
   const taskForm = document.querySelector('.task-form');
+  const taskFormSubmitBtn = document.querySelector('.task-submit-btn');
+  
   let isAddBtnClicked = false;
 
   addTaskBtn.addEventListener('click', () => {
@@ -217,7 +230,52 @@ function taskFormDisplay() {
       isAddBtnClicked = true;
     }
   })
+
+  const taskTitle = document.querySelector("#title");
+  const taskDescription = document.querySelector("#description");
+  const taskDueDate = document.querySelector("#dueDate");
+
+
+  taskFormSubmitBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const newTask = new Task(taskTitle.value, taskDescription.value, 
+    taskDueDate.value);
+    allTasks.push(newTask);
+    displayTask(newTask);
+    isAddBtnClicked = false;
+    taskForm.style.visibility = 'hidden';
+  })
 }
+
+function displayTask(task) {
+
+  const mainContent = document.querySelector('.main-content');
+
+  const taskCardContainer = document.createElement("div");
+  taskCardContainer.classList.add("task-card-container");
+
+  const taskCard = document.createElement("div");
+  taskCard.classList.add("task-card");
+
+  const taskCardDelBtn = document.createElement("button");
+  taskCardDelBtn.classList.add("card-delete-btn");
+  taskCardDelBtn.textContent = "X";
+
+  const taskCardInfo = document.createElement("div");
+  taskCardInfo.classList.add("card-info");
+  taskCardInfo.innerHTML = `Title: ${task.title}<br/> Description: ${task.description}<br/> Due Date: ${task.dueDate}`;
+
+  taskCard.append(taskCardDelBtn, taskCardInfo);
+  taskCardContainer.append(taskCard);
+  mainContent.append(taskCardContainer);
+
+  taskCardDelBtn.addEventListener('click', () => {
+    taskCardContainer.remove();
+  })
+
+  return taskCardContainer;
+
+};
 
 function loadWebsite() {
 
@@ -225,7 +283,7 @@ function loadWebsite() {
   
   container.append(createTopper(), createFooter(), createTaskForm());
 
-  taskFormDisplay();
+  taskFormDisplayController();
 
   return container;
   
