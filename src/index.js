@@ -1,3 +1,3 @@
-import loadWebsite from './home';
+import loadWebsite from './site';
 
 loadWebsite();

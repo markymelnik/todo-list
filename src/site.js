@@ -1,11 +1,12 @@
 import './style.css';
+import loadAllList from './all.js';
 
 function createTopper() {
 
   const topper = document.createElement('div');
   topper.classList.add('topper');
 
-  topper.append(createSidebar(), createMain());
+  topper.append(createSidebar(), createMain(), createButtons());
 
   return topper;
   
@@ -86,12 +87,19 @@ function createSidebarLists() {
   sidebarListsContainer.append(sidebarListsHeader, sidebarLists);
 
   return sidebarListsContainer;
+
 }
 
 function createMain() {
 
   const main = document.createElement('div');
   main.classList.add('main');
+
+  main.append(createHeader(), createListContainer());
+  return main;
+}
+
+function createHeader() {
 
   const header = document.createElement('div');
   header.classList.add('header');
@@ -101,9 +109,20 @@ function createMain() {
   headerText.textContent = 'Task At Hand';
 
   header.append(headerText);
-  
-  const mainContent = document.createElement('div');
-  mainContent.classList.add('main-content');
+
+  return header;
+
+}
+
+function createListContainer() {
+
+  const listContainer = document.createElement('div');
+  listContainer.classList.add('list-container');
+
+  return listContainer;
+}
+
+function createButtons() {
 
   const addBtns = document.createElement('div');
   addBtns.classList.add('add-btns');
@@ -118,11 +137,7 @@ function createMain() {
 
   addBtns.append(addListBtn, addTodoBtn);
 
-  mainContent.append(addBtns);
-
-  main.append(header, mainContent);
-
-  return main;
+  return addBtns;
 
 }
 
@@ -248,7 +263,7 @@ function createTask() {
 
 function displayTask(task) {
 
-  const mainContent = document.querySelector('.main-content');
+  const allListContainer = document.querySelector('.all-list');
 
   const taskCardContainer = document.createElement("div");
   taskCardContainer.classList.add("task-card-container");
@@ -266,7 +281,7 @@ function displayTask(task) {
 
   taskCard.append(taskCardInfo, taskCardDelBtn);
   taskCardContainer.append(taskCard);
-  mainContent.append(taskCardContainer);
+  allListContainer.append(taskCardContainer);
 
   taskCardDelBtn.addEventListener('click', () => {
     removeTask(taskCardContainer);
@@ -277,13 +292,16 @@ function displayTask(task) {
 };
 
 function removeTask(taskCardContainer) {
+
   taskCardContainer.remove();
-}
+
+};
 
 function loadWebsite() {
 
   const container = document.querySelector('.container');
   container.append(createTopper(), createFooter(), createTaskForm());
+  loadAllList();
   createTask();
   return container;
   
