@@ -77,7 +77,7 @@ function createSidebarLists() {
   sidebarListsContainer.classList.add('sidebar-lists-container');
 
   const sidebarListsHeader = document.createElement('div');
-  sidebarListsHeader.classList.add('sidebar-lists-header');
+  sidebarListsHeader.classList.add('sidebar-header');
   sidebarListsHeader.textContent = 'Lists';
 
   const sidebarLists = document.createElement('div');
@@ -113,7 +113,7 @@ function createMain() {
   addListBtn.textContent = '+List';
 
   const addTodoBtn = document.createElement('button');
-  addTodoBtn.classList.add('add-todo-btn');
+  addTodoBtn.classList.add('add-task-btn');
   addTodoBtn.textContent = '+Todo';
 
   addBtns.append(addListBtn, addTodoBtn);
@@ -141,11 +141,91 @@ function createFooter() {
 
 }
 
+function createTaskForm() {
+
+  const taskForm = document.createElement('div');
+  taskForm.classList.add('task-form');
+
+  const titleSection = document.createElement('div');
+  titleSection.classList.add('input-field');
+
+  const titleLabel = document.createElement('label');
+  titleLabel.setAttribute('for', 'title');
+  titleLabel.textContent = 'Title';
+
+  const titleField = document.createElement('input');
+  titleField.setAttribute('type', 'text');
+  titleField.setAttribute('id', 'title');
+  titleField.setAttribute('name', 'title');
+
+  titleSection.append(titleLabel, titleField);
+
+  const descriptionSection = document.createElement('div');
+  descriptionSection.classList.add('input-field');
+
+  const descriptionLabel = document.createElement('label');
+  descriptionLabel.setAttribute('for', 'description');
+  descriptionLabel.textContent = 'Description';
+
+  const descriptionField = document.createElement('input');
+  descriptionField.setAttribute('type', 'text');
+  descriptionField.setAttribute('id', 'description');
+  descriptionField.setAttribute('name', 'description');
+
+  descriptionSection.append(descriptionLabel, descriptionField);
+
+  const dueDateSection = document.createElement('div');
+  dueDateSection.classList.add('input-field');
+
+  const dueDateLabel = document.createElement('label');
+  dueDateLabel.setAttribute('for', 'dueDate');
+  dueDateLabel.textContent = 'Due Date';
+
+  const dueDateField = document.createElement('input');
+  dueDateField.setAttribute('type', 'text');
+  dueDateField.setAttribute('id', 'dueDate');
+  dueDateField.setAttribute('name', 'dueDate');
+
+  dueDateSection.append(dueDateLabel, dueDateField);
+
+  const submitBtnSection = document.createElement('div');
+  
+  const submitBtn = document.createElement('button');
+  submitBtn.setAttribute('type', 'submit');
+  submitBtn.classList.add('task-submit-btn');
+  submitBtn.textContent = 'Submit';
+
+  submitBtnSection.append(submitBtn);
+
+  taskForm.append(titleSection, descriptionSection, dueDateSection, submitBtnSection);
+
+  return taskForm;
+
+}
+
+function taskFormDisplay() {
+  const addTaskBtn = document.querySelector('.add-task-btn');
+  const taskForm = document.querySelector('.task-form');
+  let isAddBtnClicked = false;
+
+  addTaskBtn.addEventListener('click', () => {
+    if (isAddBtnClicked) {
+      taskForm.style.visibility = 'hidden';
+      isAddBtnClicked = false;
+    } else {
+      taskForm.style.visibility = 'visible';
+      isAddBtnClicked = true;
+    }
+  })
+}
+
 function loadWebsite() {
 
   const container = document.querySelector('.container');
+  
+  container.append(createTopper(), createFooter(), createTaskForm());
 
-  container.append(createTopper(), createFooter());
+  taskFormDisplay();
 
   return container;
   

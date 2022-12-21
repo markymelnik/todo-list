@@ -109,3 +109,13 @@
 .footer-text {
   font-size: 16px;
 }
+
+.task-form {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  background-color: lightgray;
+  width: 300px;
+  height: 200px;
+  visibility: hidden;
+}
