@@ -1,7 +1,7 @@
 function createdScheduledList() {
 
   const scheduledList = document.createElement('div');
-  scheduledList.classList.add('list');
+  scheduledList.classList.add('scheduled-list');
   return scheduledList;
 
 }

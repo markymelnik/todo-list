@@ -1,7 +1,7 @@
 function createCompletedList() {
 
   const completedList = document.createElement('div');
-  completedList.classList.add('list');
+  completedList.classList.add('completed-list');
   return completedList;
 
 }

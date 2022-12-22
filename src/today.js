@@ -1,7 +1,7 @@
 function createTodayList() {
 
   const todayList = document.createElement('div');
-  todayList.classList.add('list');
+  todayList.classList.add('today-list');
   return todayList;
 
 }

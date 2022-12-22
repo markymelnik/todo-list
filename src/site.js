@@ -5,6 +5,22 @@ import loadScheduledList from './scheduled.js';
 import loadStarredList from './starred.js';
 import loadCompletedList from './completed.js';
 
+const builtInList = {
+  allList: [],
+  todayList: [],
+  scheduledList: [],
+  starredList: [],
+  completedList: []
+};
+
+class Task {
+  constructor(title, description, dueDate) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+  }
+};
+
 function createTopper() {
 
   const topper = document.createElement('div');
@@ -49,7 +65,7 @@ function createSidebarTasks() {
   sidebarTasks.classList.add('sidebar-tasks');
 
   const sidebarAll = document.createElement('div');
-  sidebarAll.classList.add('sidebar-tasks-tab');
+  sidebarAll.classList.add('sidebar-tasks-tab', 'all-list');
   sidebarAll.textContent = 'All';
   sidebarAll.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
@@ -58,7 +74,7 @@ function createSidebarTasks() {
   })
 
   const sidebarToday = document.createElement('div');
-  sidebarToday.classList.add('sidebar-tasks-tab');
+  sidebarToday.classList.add('sidebar-tasks-tab', 'today-list');
   sidebarToday.textContent = 'Today';
   sidebarToday.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
@@ -67,7 +83,7 @@ function createSidebarTasks() {
   })
 
   const sidebarScheduled = document.createElement('div');
-  sidebarScheduled.classList.add('sidebar-tasks-tab');
+  sidebarScheduled.classList.add('sidebar-tasks-tab', 'scheduled-list');
   sidebarScheduled.textContent = 'Scheduled';
   sidebarScheduled.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
@@ -76,7 +92,7 @@ function createSidebarTasks() {
   })
 
   const sidebarStarred = document.createElement('div');
-  sidebarStarred.classList.add('sidebar-tasks-tab');
+  sidebarStarred.classList.add('sidebar-tasks-tab', 'starred-list');
   sidebarStarred.textContent = 'Starred';
   sidebarStarred.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
@@ -85,7 +101,7 @@ function createSidebarTasks() {
   })
 
   const sidebarCompleted = document.createElement('div');
-  sidebarCompleted.classList.add('sidebar-tasks-tab');
+  sidebarCompleted.classList.add('sidebar-tasks-tab', 'completed-list');
   sidebarCompleted.textContent = 'Completed';
   sidebarCompleted.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
@@ -247,14 +263,14 @@ function createTaskForm() {
 
 }
 
-let allTasks = [];
-
-class Task {
-  constructor(title, description, dueDate) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-  }
+function tabStatus(tab) {
+  const taskTabs = document.querySelectorAll('.sidebar-tasks-tab');
+  taskTabs.forEach((tab) => {
+    if (tab !== this) {
+      tab.classList.remove('active');
+    }
+  })
+  tab.classList.add('active');
 };
 
 function createTask() {
@@ -283,16 +299,20 @@ function createTask() {
     e.preventDefault();
     const newTask = new Task(taskTitle.value, taskDescription.value, 
     taskDueDate.value);
-    allTasks.push(newTask);
-    displayTask(newTask);
+
+    builtInList.allList.push(newTask);
+    console.log(builtInList);
+
+
+    taskDisplay(newTask);
     isAddBtnClicked = false;
     taskForm.style.visibility = 'hidden';
   })
 }
 
-function displayTask(task) {
+function taskDisplay(task) {
 
-  const allListContainer = document.querySelector('.list-container');
+  const listContainer = document.querySelector('.list-container');
 
   const taskCardContainer = document.createElement("div");
   taskCardContainer.classList.add("task-card-container");
@@ -310,7 +330,7 @@ function displayTask(task) {
 
   taskCard.append(taskCardInfo, taskCardDelBtn);
   taskCardContainer.append(taskCard);
-  allListContainer.append(taskCardContainer);
+  listContainer.firstChild.append(taskCardContainer);
 
   taskCardDelBtn.addEventListener('click', () => {
     removeTask(taskCardContainer);
@@ -326,22 +346,17 @@ function removeTask(taskCardContainer) {
 
 };
 
-function tabStatus(tab) {
-  const taskTabs = document.querySelectorAll('.sidebar-tasks-tab');
-  taskTabs.forEach((tab) => {
-    if (tab !== this) {
-      tab.classList.remove('active');
-    }
-  })
-  tab.classList.add('active');
-};
-
 function loadWebsite() {
 
   const container = document.querySelector('.container');
   container.append(createTopper(), createFooter(), createTaskForm());
+
   loadAllList();
   createTask();
+
+  const allList = document.querySelector('.all-list');
+  tabStatus(allList);
+
   return container;
   
 };

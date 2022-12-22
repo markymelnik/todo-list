@@ -1,7 +1,7 @@
 function createAllList() {
 
   const allList = document.createElement('div');
-  allList.classList.add('list');
+  allList.classList.add('all-list');
   return allList;
 
 }
