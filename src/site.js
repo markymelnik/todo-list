@@ -1,5 +1,6 @@
 import './style.css';
 import loadAllList from './all.js';
+import loadStarredList from './starred.js';
 
 function createTopper() {
 
@@ -45,23 +46,33 @@ function createSidebarTasks() {
   sidebarTasks.classList.add('sidebar-tasks');
 
   const sidebarAll = document.createElement('div');
-  sidebarAll.classList.add('tasks');
+  sidebarAll.classList.add('sidebar-tasks-tab');
   sidebarAll.textContent = 'All';
+  sidebarAll.addEventListener('click', (tab) => {
+    if (tab.target.classList.contains('active')) return;
+    tabStatus(sidebarAll);
+    loadAllList();
+  })
 
   const sidebarToday = document.createElement('div');
-  sidebarToday.classList.add('tasks');
+  sidebarToday.classList.add('sidebar-tasks-tab');
   sidebarToday.textContent = 'Today';
 
   const sidebarScheduled = document.createElement('div');
-  sidebarScheduled.classList.add('tasks');
+  sidebarScheduled.classList.add('sidebar-tasks-tab');
   sidebarScheduled.textContent = 'Scheduled';
 
   const sidebarStarred = document.createElement('div');
-  sidebarStarred.classList.add('tasks');
+  sidebarStarred.classList.add('sidebar-tasks-tab');
   sidebarStarred.textContent = 'Starred';
+  sidebarStarred.addEventListener('click', (tab) => {
+    if (tab.target.classList.contains('active')) return;
+    tabStatus(sidebarStarred);
+    loadStarredList();
+  })
 
   const sidebarCompleted = document.createElement('div');
-  sidebarCompleted.classList.add('tasks');
+  sidebarCompleted.classList.add('sidebar-tasks-tab');
   sidebarCompleted.textContent = 'Completed';
 
   sidebarTasks.append(sidebarAll, sidebarToday, sidebarScheduled, sidebarStarred, sidebarCompleted);
@@ -125,17 +136,17 @@ function createListContainer() {
 function createButtons() {
 
   const addBtns = document.createElement('div');
-  addBtns.classList.add('add-btns');
+  addBtns.classList.add('add-btns-container');
 
   const addListBtn = document.createElement('button');
   addListBtn.classList.add('add-list-btn');
   addListBtn.textContent = '+List';
 
-  const addTodoBtn = document.createElement('button');
-  addTodoBtn.classList.add('add-task-btn');
-  addTodoBtn.textContent = '+Todo';
+  const addTaskBtn = document.createElement('button');
+  addTaskBtn.classList.add('add-task-btn');
+  addTaskBtn.textContent = '+Task';
 
-  addBtns.append(addListBtn, addTodoBtn);
+  addBtns.append(addListBtn, addTaskBtn);
 
   return addBtns;
 
@@ -263,7 +274,7 @@ function createTask() {
 
 function displayTask(task) {
 
-  const allListContainer = document.querySelector('.all-list');
+  const allListContainer = document.querySelector('.list-container');
 
   const taskCardContainer = document.createElement("div");
   taskCardContainer.classList.add("task-card-container");
@@ -295,6 +306,16 @@ function removeTask(taskCardContainer) {
 
   taskCardContainer.remove();
 
+};
+
+function tabStatus(tab) {
+  const taskTabs = document.querySelectorAll('.sidebar-tasks-tab');
+  taskTabs.forEach((tab) => {
+    if (tab !== this) {
+      tab.classList.remove('active');
+    }
+  })
+  tab.classList.add('active');
 };
 
 function loadWebsite() {
