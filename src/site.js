@@ -1,6 +1,9 @@
 import './style.css';
 import loadAllList from './all.js';
+import loadTodayList from './today.js';
+import loadScheduledList from './scheduled.js';
 import loadStarredList from './starred.js';
+import loadCompletedList from './completed.js';
 
 function createTopper() {
 
@@ -57,10 +60,20 @@ function createSidebarTasks() {
   const sidebarToday = document.createElement('div');
   sidebarToday.classList.add('sidebar-tasks-tab');
   sidebarToday.textContent = 'Today';
+  sidebarToday.addEventListener('click', (tab) => {
+    if (tab.target.classList.contains('active')) return;
+    tabStatus(sidebarToday);
+    loadTodayList();
+  })
 
   const sidebarScheduled = document.createElement('div');
   sidebarScheduled.classList.add('sidebar-tasks-tab');
   sidebarScheduled.textContent = 'Scheduled';
+  sidebarScheduled.addEventListener('click', (tab) => {
+    if (tab.target.classList.contains('active')) return;
+    tabStatus(sidebarScheduled);
+    loadScheduledList();
+  })
 
   const sidebarStarred = document.createElement('div');
   sidebarStarred.classList.add('sidebar-tasks-tab');
@@ -74,6 +87,11 @@ function createSidebarTasks() {
   const sidebarCompleted = document.createElement('div');
   sidebarCompleted.classList.add('sidebar-tasks-tab');
   sidebarCompleted.textContent = 'Completed';
+  sidebarCompleted.addEventListener('click', (tab) => {
+    if (tab.target.classList.contains('active')) return;
+    tabStatus(sidebarCompleted);
+    loadCompletedList();
+  })
 
   sidebarTasks.append(sidebarAll, sidebarToday, sidebarScheduled, sidebarStarred, sidebarCompleted);
 
