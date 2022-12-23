@@ -70,7 +70,6 @@ function createSidebarTasks() {
   sidebarAll.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
     tabStatus(sidebarAll);
-    loadAllList();
   })
 
   const sidebarToday = document.createElement('div');
@@ -79,7 +78,7 @@ function createSidebarTasks() {
   sidebarToday.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
     tabStatus(sidebarToday);
-    loadTodayList();
+    
   })
 
   const sidebarScheduled = document.createElement('div');
@@ -88,7 +87,6 @@ function createSidebarTasks() {
   sidebarScheduled.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
     tabStatus(sidebarScheduled);
-    loadScheduledList();
   })
 
   const sidebarStarred = document.createElement('div');
@@ -97,7 +95,6 @@ function createSidebarTasks() {
   sidebarStarred.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
     tabStatus(sidebarStarred);
-    loadStarredList();
   })
 
   const sidebarCompleted = document.createElement('div');
@@ -106,7 +103,6 @@ function createSidebarTasks() {
   sidebarCompleted.addEventListener('click', (tab) => {
     if (tab.target.classList.contains('active')) return;
     tabStatus(sidebarCompleted);
-    loadCompletedList();
   })
 
   sidebarTasks.append(sidebarAll, sidebarToday, sidebarScheduled, sidebarStarred, sidebarCompleted);
@@ -300,7 +296,7 @@ function createTask() {
     const newTask = new Task(taskTitle.value, taskDescription.value, 
     taskDueDate.value);
 
-    builtInList.allList.push(newTask);
+    taskSorter(newTask);
     console.log(builtInList);
 
 
@@ -346,13 +342,13 @@ function removeTask(taskCardContainer) {
 
 };
 
-function taskSorter(taskCardContainer) {
+function taskSorter(newTask) {
 
-  const taskTabs = document.querySelectorAll('.sidebar-tasks-tab');
+  const taskTabs = document.querySelectorAll('.list');
 
   taskTabs.forEach((tab) => {
-    if (tab.getAttribute('active')) {
-      tab.appendChild(taskCardContainer);
+    if (tab.hasAttribute('today-list')) {
+      builtInList.todayList.push(newTask);
     }
   })
 };
@@ -363,6 +359,10 @@ function loadWebsite() {
   container.append(createTopper(), createFooter(), createTaskForm());
 
   loadAllList();
+  loadTodayList();
+  loadScheduledList();
+  loadStarredList();
+  loadCompletedList();
   createTask();
 
   const allList = document.querySelector('.all-list');

@@ -2,6 +2,7 @@ function createTodayList() {
 
   const todayList = document.createElement('div');
   todayList.classList.add('today-list');
+  todayList.classList.add('list');
   return todayList;
 
 }
@@ -9,7 +10,6 @@ function createTodayList() {
 function loadTodayList() {
 
   const listContainer = document.querySelector('.list-container');
-  listContainer.innerHTML = '';
   listContainer.append(createTodayList());
 
 }
