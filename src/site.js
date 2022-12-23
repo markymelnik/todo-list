@@ -346,6 +346,17 @@ function removeTask(taskCardContainer) {
 
 };
 
+function taskSorter(taskCardContainer) {
+
+  const taskTabs = document.querySelectorAll('.sidebar-tasks-tab');
+
+  taskTabs.forEach((tab) => {
+    if (tab.getAttribute('active')) {
+      tab.appendChild(taskCardContainer);
+    }
+  })
+};
+
 function loadWebsite() {
 
   const container = document.querySelector('.container');
