@@ -1,7 +1,7 @@
 function createStarredList() {
 
   const starredList = document.createElement('div');
-  starredList.classList.add('starred-list');
+  starredList.classList.add('starred-list-container');
   starredList.classList.add('list');
   return starredList;
 

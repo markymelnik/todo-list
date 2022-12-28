@@ -83,15 +83,6 @@
 }
 
 
-
-.list-container {
-  flex: 1;
-}
-
-.list {
-  padding: 10px;
-}
-
 .task-card-container {
   display: flex;
   flex-direction: column;
@@ -125,9 +116,9 @@
 
 
 .add-btns-container {
+  position: fixed;
   display: flex;
   gap: 40px;
-  position: absolute;
   bottom: 20px;
   right: 20px;
   padding: 20px;

@@ -1,9 +1,6 @@
 import './style.css';
 import loadAllList from './all.js';
-import loadTodayList from './today.js';
-import loadScheduledList from './scheduled.js';
 import loadStarredList from './starred.js';
-import loadCompletedList from './completed.js';
 
 const builtInList = {
   allList: [],
@@ -26,7 +23,7 @@ function createTopper() {
   const topper = document.createElement('div');
   topper.classList.add('topper');
 
-  topper.append(createSidebar(), createMain(), createButtons());
+  topper.append(createSidebar(), createMain());
 
   return topper;
   
@@ -296,15 +293,14 @@ function createTask() {
     const newTask = new Task(taskTitle.value, taskDescription.value, 
     taskDueDate.value);
 
-    taskSorter(newTask);
     console.log(builtInList);
-
 
     taskDisplay(newTask);
     isAddBtnClicked = false;
     taskForm.style.visibility = 'hidden';
   })
-}
+
+};
 
 function taskDisplay(task) {
 
@@ -342,27 +338,13 @@ function removeTask(taskCardContainer) {
 
 };
 
-function taskSorter(newTask) {
-
-  const taskTabs = document.querySelectorAll('.list');
-
-  taskTabs.forEach((tab) => {
-    if (tab.hasAttribute('today-list')) {
-      builtInList.todayList.push(newTask);
-    }
-  })
-};
-
 function loadWebsite() {
 
   const container = document.querySelector('.container');
-  container.append(createTopper(), createFooter(), createTaskForm());
+  container.append(createTopper(), createFooter(), createTaskForm(), createButtons());
 
   loadAllList();
-  loadTodayList();
-  loadScheduledList();
   loadStarredList();
-  loadCompletedList();
   createTask();
 
   const allList = document.querySelector('.all-list');
