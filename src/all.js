@@ -1,16 +1,18 @@
 function createAllList() {
 
-  const allList = document.createElement('div');
-  allList.classList.add('all-list-container');
-  allList.classList.add('list');
-  return allList;
+  const allListContainer = document.createElement('div');
+  allListContainer.classList.add('all-list-container');
+  allListContainer.classList.add('list');
+
+  return allListContainer;
 
 }
 
 function loadAllList() {
 
   const listContainer = document.querySelector('.list-container');
-  listContainer.append(createAllList());
+
+  return listContainer;
 
 }
 

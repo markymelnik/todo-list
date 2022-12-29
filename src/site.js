@@ -1,5 +1,5 @@
 import './style.css';
-import {createDisplay, tabStatus} from './display'
+import createDisplay from './display'
 import loadAllList from './all';
 import loadStarredList from './starred';
 
@@ -7,6 +7,7 @@ const builtInList = {
   allList: [],
   starredList: []
 };
+
 
 class Task {
   constructor(title, description, dueDate) {
@@ -16,90 +17,127 @@ class Task {
   }
 };
 
-function createTask() {
-
-  const addTaskBtn = document.querySelector('.add-task-btn');
-  const taskForm = document.querySelector('.task-form');
-  const taskFormSubmitBtn = document.querySelector('.task-submit-btn');
-  
-  const taskTitle = document.querySelector("#title");
-  const taskDescription = document.querySelector("#description");
-  const taskDueDate = document.querySelector("#dueDate");
+const taskController = (() => {
 
   let isAddBtnClicked = false;
 
-  addTaskBtn.addEventListener('click', () => {
-    if (isAddBtnClicked) {
-      taskForm.style.visibility = 'hidden';
+  const initiateTaskForm = () => {
+
+    const addTaskBtn = document.querySelector('.add-task-btn');
+    const taskForm = document.querySelector('.task-form');
+    
+    addTaskBtn.addEventListener('click', () => {
+      if (isAddBtnClicked) {
+        taskForm.style.visibility = 'hidden';
+        isAddBtnClicked = false;
+      } else {
+        taskForm.style.visibility = 'visible';
+        isAddBtnClicked = true;
+      }
+    })
+  }
+
+  const submitTaskForm = () => {
+
+    const submitTaskFormBtn = document.querySelector('.task-submit-btn');
+    const taskForm = document.querySelector('.task-form');
+    const taskTitle = document.querySelector("#title");
+    const taskDescription = document.querySelector("#description");
+    const taskDueDate = document.querySelector("#dueDate");
+    
+    submitTaskFormBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const newTask = new Task(taskTitle.value, taskDescription.value, taskDueDate.value);
+      addTaskToDisplay(newTask);
       isAddBtnClicked = false;
-    } else {
-      taskForm.style.visibility = 'visible';
-      isAddBtnClicked = true;
+      taskForm.style.visibility = 'hidden';
+    })
+  }
+
+  const addTaskToDisplay = (newTask) => {
+  
+    const listContainer = document.querySelector('.list-container');
+
+    const taskCardContainer = document.createElement("div");
+    taskCardContainer.classList.add("task-card-container");
+
+    const taskCard = document.createElement("div");
+    taskCard.classList.add("task-card");
+
+    const taskCardInfo = document.createElement("div");
+    taskCardInfo.classList.add("card-info");
+    taskCardInfo.innerHTML = `Title: ${newTask.title}<br/> Description: ${newTask.description}<br/> Due Date: ${newTask.dueDate}`;
+
+    const taskCardDelBtn = document.createElement("button");
+    taskCardDelBtn.classList.add("card-delete-btn");
+    taskCardDelBtn.textContent = "X";
+
+    taskCard.append(taskCardInfo, taskCardDelBtn);
+    taskCardContainer.append(taskCard);
+
+    listContainer.append(taskCardContainer);
+
+    taskCardDelBtn.addEventListener('click', () => {
+      taskCardContainer.remove();
+    })
+  }
+
+  return {
+    initiateTaskForm,
+    submitTaskForm,
+    addTaskToDisplay
+  }
+
+})();
+
+const listSelector = (() => {
+
+  const listStatus = () => {
+
+    const sidebarAllList = document.querySelector('.sidebar-all-list');
+    const sidebarStarredList = document.querySelector('.sidebar-starred-list');
+
+    sidebarAllList.addEventListener('click', (tab) => {
+      if (tab.target.classList.contains('active')) return;
+      tabStatus(sidebarAllList);
+    })
+
+    sidebarStarredList.addEventListener('click', (tab) => {
+      if (tab.target.classList.contains('active')) return;
+      tabStatus(sidebarStarredList);
+    })
+  }
+
+  return {
+    listStatus
+  }
+
+})();
+
+function tabStatus(tab) {
+
+  const taskTabs = document.querySelectorAll('.sidebar-tasks-tab');
+
+  taskTabs.forEach((tab) => {
+    if (tab !== this) {
+      tab.classList.remove('active');
     }
   })
-
-  taskFormSubmitBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const newTask = new Task(taskTitle.value, taskDescription.value, 
-    taskDueDate.value);
-
-    console.log(builtInList);
-
-    addTaskToDisplay(newTask);
-    isAddBtnClicked = false;
-    taskForm.style.visibility = 'hidden';
-  })
-
+  tab.classList.add('active');
 };
-
-function addTaskToDisplay(task) {
-
-  const listContainer = document.querySelector('.list-container');
-
-  const taskCardContainer = document.createElement("div");
-  taskCardContainer.classList.add("task-card-container");
-
-  const taskCard = document.createElement("div");
-  taskCard.classList.add("task-card");
-
-  const taskCardInfo = document.createElement("div");
-  taskCardInfo.classList.add("card-info");
-  taskCardInfo.innerHTML = `Title: ${task.title}<br/> Description: ${task.description}<br/> Due Date: ${task.dueDate}`;
-
-  const taskCardDelBtn = document.createElement("button");
-  taskCardDelBtn.classList.add("card-delete-btn");
-  taskCardDelBtn.textContent = "X";
-
-  taskCard.append(taskCardInfo, taskCardDelBtn);
-  taskCardContainer.append(taskCard);
-  listContainer.append(taskCardContainer);
-
-  taskCardDelBtn.addEventListener('click', () => {
-    removeTaskFromDisplay(taskCardContainer);
-  });
-
-  return taskCardContainer;
-
-};
-
-function removeTaskFromDisplay(taskCardContainer) {
-
-  taskCardContainer.remove();
-
-};
-
 
 function loadWebsite() {
 
   createDisplay();
-
   loadAllList();
-  loadStarredList();
-  createTask();
 
-  const allList = document.querySelector('.all-list');
-  tabStatus(allList);
-  
+  const sidebarAllList = document.querySelector('.sidebar-all-list');
+  tabStatus(sidebarAllList);
+  listSelector.listStatus();
+
+  taskController.initiateTaskForm();
+  taskController.submitTaskForm();
+
 };
 
 export default loadWebsite;

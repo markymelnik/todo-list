@@ -10,7 +10,8 @@ function createStarredList() {
 function loadStarredList() {
 
   const listContainer = document.querySelector('.list-container');
-  listContainer.append(createStarredList());
+
+  return listContainer;
 
 }
 

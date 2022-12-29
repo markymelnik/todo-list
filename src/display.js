@@ -1,3 +1,4 @@
+
 function createTopper() {
 
   const topper = document.createElement('div');
@@ -6,7 +7,7 @@ function createTopper() {
   topper.append(createSidebar(), createMain());
 
   return topper;
-  
+
 }
 
 function createSidebar() {
@@ -42,47 +43,14 @@ function createSidebarTasks() {
   sidebarTasks.classList.add('sidebar-tasks');
 
   const sidebarAll = document.createElement('div');
-  sidebarAll.classList.add('sidebar-tasks-tab', 'all-list');
+  sidebarAll.classList.add('sidebar-tasks-tab', 'sidebar-all-list');
   sidebarAll.textContent = 'All';
-  sidebarAll.addEventListener('click', (tab) => {
-    if (tab.target.classList.contains('active')) return;
-    tabStatus(sidebarAll);
-  })
-
-  const sidebarToday = document.createElement('div');
-  sidebarToday.classList.add('sidebar-tasks-tab', 'today-list');
-  sidebarToday.textContent = 'Today';
-  sidebarToday.addEventListener('click', (tab) => {
-    if (tab.target.classList.contains('active')) return;
-    tabStatus(sidebarToday);
-    
-  })
-
-  const sidebarScheduled = document.createElement('div');
-  sidebarScheduled.classList.add('sidebar-tasks-tab', 'scheduled-list');
-  sidebarScheduled.textContent = 'Scheduled';
-  sidebarScheduled.addEventListener('click', (tab) => {
-    if (tab.target.classList.contains('active')) return;
-    tabStatus(sidebarScheduled);
-  })
 
   const sidebarStarred = document.createElement('div');
-  sidebarStarred.classList.add('sidebar-tasks-tab', 'starred-list');
+  sidebarStarred.classList.add('sidebar-tasks-tab', 'sidebar-starred-list');
   sidebarStarred.textContent = 'Starred';
-  sidebarStarred.addEventListener('click', (tab) => {
-    if (tab.target.classList.contains('active')) return;
-    tabStatus(sidebarStarred);
-  })
 
-  const sidebarCompleted = document.createElement('div');
-  sidebarCompleted.classList.add('sidebar-tasks-tab', 'completed-list');
-  sidebarCompleted.textContent = 'Completed';
-  sidebarCompleted.addEventListener('click', (tab) => {
-    if (tab.target.classList.contains('active')) return;
-    tabStatus(sidebarCompleted);
-  })
-
-  sidebarTasks.append(sidebarAll, sidebarToday, sidebarScheduled, sidebarStarred, sidebarCompleted);
+  sidebarTasks.append(sidebarAll, sidebarStarred);
 
   sidebarTasksContainer.append(sidebarTasksHeader, sidebarTasks);
 
@@ -114,7 +82,9 @@ function createMain() {
   main.classList.add('main');
 
   main.append(createHeader(), createListContainer());
+
   return main;
+
 }
 
 function createHeader() {
@@ -236,22 +206,13 @@ function createFooter() {
 
 }
 
-function tabStatus(tab) {
-  const taskTabs = document.querySelectorAll('.sidebar-tasks-tab');
-  taskTabs.forEach((tab) => {
-    if (tab !== this) {
-      tab.classList.remove('active');
-    }
-  })
-  tab.classList.add('active');
-};
-
 function createDisplay() {
 
   const container = document.querySelector('.container');
   container.append(createTopper(), createFooter(), createTaskForm(), createButtons());
 
   return container;
+
 }
 
-export {createDisplay, tabStatus};
+export default createDisplay;
